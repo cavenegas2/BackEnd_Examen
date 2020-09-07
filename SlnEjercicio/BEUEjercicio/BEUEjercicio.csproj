@@ -149,6 +149,9 @@
     <Compile Include="Alumno.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Aporte.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Area.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -187,6 +190,7 @@
     <Compile Include="Transactions\AreaBLL.cs" />
     <Compile Include="Transactions\MaquinariaBLL.cs" />
     <Compile Include="Transactions\MateriaBLL.cs" />
+    <Compile Include="Transactions\Calificacion.cs" />
     <Compile Include="Transactions\MatriculaBLL.cs" />
     <Compile Include="Transactions\VinculacionBLL.cs" />
     <Compile Include="Vinculacion.cs">

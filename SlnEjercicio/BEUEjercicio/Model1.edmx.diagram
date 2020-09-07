@@ -17,6 +17,8 @@
         <AssociationConnector Association="DBESCOLASTICOModel.FK_Calificacion_Matricula" ManuallyRouted="false" />
         <AssociationConnector Association="DBESCOLASTICOModel.FK_Matricula_Materia" ManuallyRouted="false" />
         <EntityTypeShape EntityType="DBESCOLASTICOModel.Vinculacion" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="DBESCOLASTICOModel.Aporte" Width="1.5" PointX="9.75" PointY="1.5" />
+        <AssociationConnector Association="DBESCOLASTICOModel.FK_Aporte_Calificacion" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

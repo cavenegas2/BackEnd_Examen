@@ -17,6 +17,17 @@
           <Property Name="lugar_nacimiento" Type="varchar" MaxLength="50" />
           <Property Name="sexo" Type="nchar" MaxLength="1" />
         </EntityType>
+        <EntityType Name="Aporte">
+          <Key>
+            <PropertyRef Name="idaporte" />
+          </Key>
+          <Property Name="idaporte" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="puntaje" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="valor" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="ponderado" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="idcalificacion" Type="int" />
+          <Property Name="nombre" Type="varchar" MaxLength="25" />
+        </EntityType>
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="idarea" />
@@ -88,6 +99,18 @@
           <Property Name="lugar" Type="varchar" MaxLength="50" />
           <Property Name="coordinador" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_Aporte_Calificacion">
+          <End Role="Calificacion" Type="Self.Calificacion" Multiplicity="0..1" />
+          <End Role="Aporte" Type="Self.Aporte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Calificacion">
+              <PropertyRef Name="idcalificacion" />
+            </Principal>
+            <Dependent Role="Aporte">
+              <PropertyRef Name="idcalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Calificacion_Matricula">
           <End Role="Matricula" Type="Self.Matricula" Multiplicity="0..1" />
           <End Role="Calificacion" Type="Self.Calificacion" Multiplicity="*" />
@@ -138,6 +161,7 @@
         </Association>
         <EntityContainer Name="DBESCOLASTICOModelStoreContainer">
           <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Aporte" EntityType="Self.Aporte" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Calificacion" EntityType="Self.Calificacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Maquinaria" EntityType="Self.Maquinaria" Schema="dbo" store:Type="Tables" />
@@ -145,6 +169,10 @@
           <EntitySet Name="Matricula" EntityType="Self.Matricula" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vinculacion" EntityType="Self.Vinculacion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Aporte_Calificacion" Association="Self.FK_Aporte_Calificacion">
+            <End Role="Calificacion" EntitySet="Calificacion" />
+            <End Role="Aporte" EntitySet="Aporte" />
+          </AssociationSet>
           <AssociationSet Name="FK_Calificacion_Matricula" Association="Self.FK_Calificacion_Matricula">
             <End Role="Matricula" EntitySet="Matricula" />
             <End Role="Calificacion" EntitySet="Calificacion" />
@@ -198,6 +226,7 @@
           <Property Name="unidad" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="idmatricula" Type="Int32" />
           <NavigationProperty Name="Matricula" Relationship="Self.FK_Calificacion_Matricula" FromRole="Calificacion" ToRole="Matricula" />
+          <NavigationProperty Name="Aporte" Relationship="DBESCOLASTICOModel.FK_Aporte_Calificacion" FromRole="Calificacion" ToRole="Aporte" />
         </EntityType>
         <EntityType Name="Maquinaria">
           <Key>
@@ -320,6 +349,11 @@
             <End Role="Matricula" EntitySet="Matricula" />
           </AssociationSet>
           <EntitySet Name="Vinculacion" EntityType="DBESCOLASTICOModel.Vinculacion" />
+          <EntitySet Name="Aporte" EntityType="DBESCOLASTICOModel.Aporte" />
+          <AssociationSet Name="FK_Aporte_Calificacion" Association="DBESCOLASTICOModel.FK_Aporte_Calificacion">
+            <End Role="Calificacion" EntitySet="Calificacion" />
+            <End Role="Aporte" EntitySet="Aporte" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Vinculacion">
           <Key>
@@ -331,6 +365,30 @@
           <Property Name="lugar" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="coordinador" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Aporte">
+          <Key>
+            <PropertyRef Name="idaporte" />
+          </Key>
+          <Property Name="idaporte" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="puntaje" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="valor" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="ponderado" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="idcalificacion" Type="Int32" />
+          <NavigationProperty Name="Calificacion" Relationship="DBESCOLASTICOModel.FK_Aporte_Calificacion" FromRole="Aporte" ToRole="Calificacion" />
+          <Property Name="nombre" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Aporte_Calificacion">
+          <End Type="DBESCOLASTICOModel.Calificacion" Role="Calificacion" Multiplicity="0..1" />
+          <End Type="DBESCOLASTICOModel.Aporte" Role="Aporte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Calificacion">
+              <PropertyRef Name="idcalificacion" />
+            </Principal>
+            <Dependent Role="Aporte">
+              <PropertyRef Name="idcalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -425,6 +483,18 @@
                 <ScalarProperty Name="horas" ColumnName="horas" />
                 <ScalarProperty Name="nombre_proyecto" ColumnName="nombre_proyecto" />
                 <ScalarProperty Name="idvinculacion" ColumnName="idvinculacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Aporte">
+            <EntityTypeMapping TypeName="DBESCOLASTICOModel.Aporte">
+              <MappingFragment StoreEntitySet="Aporte">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idcalificacion" ColumnName="idcalificacion" />
+                <ScalarProperty Name="ponderado" ColumnName="ponderado" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="puntaje" ColumnName="puntaje" />
+                <ScalarProperty Name="idaporte" ColumnName="idaporte" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

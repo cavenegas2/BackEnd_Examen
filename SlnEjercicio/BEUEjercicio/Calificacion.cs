@@ -14,6 +14,12 @@ namespace BEUEjercicio
     
     public partial class Calificacion
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Calificacion()
+        {
+            this.Aporte = new HashSet<Aporte>();
+        }
+    
         public int idcalificacion { get; set; }
         public Nullable<decimal> valor { get; set; }
         public Nullable<System.DateTime> fecha { get; set; }
@@ -21,5 +27,7 @@ namespace BEUEjercicio
         public Nullable<int> idmatricula { get; set; }
     
         public virtual Matricula Matricula { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Aporte> Aporte { get; set; }
     }
 }
